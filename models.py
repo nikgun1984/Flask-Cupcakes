@@ -33,6 +33,7 @@ class Cupcake(db.Model):
         return f"<CupCake: {self.flavor} {self.size} {self.rating}>"
 
     def serialize(self):
+        """Serialize our object cupcake to dictionary for json"""
         return {
             "id": self.id,
             "flavor": self.flavor,
