@@ -47,7 +47,7 @@ $(async function() {
         const rating = $("#rating").val()
         const image = $("#image").val()
     
-        // call the create method, which calls the API and then builds a new user instance
+        // call the create method, which calls the API and then builds a new cake instance
         addNewCake(flavor,size,rating,image);
       });
 });
