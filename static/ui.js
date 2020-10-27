@@ -45,9 +45,7 @@ $(async function() {
 
     async function updateCake(flavor,size,rating,image,id){
         let cake = await CakeList.updateCake({flavor,size,rating,image},id);
-        $('#table tr[data-id='+ id +']').remove()
-        const res = getCakeHTML(cake);
-        $allCakesList.append(res);
+        await generateCakeList(CakeList.getCakes);
     }
 
     $submitForm.on("submit", async function(evt) {
@@ -58,12 +56,21 @@ $(async function() {
         const image = $("#image").val()
     
         // call the create method, which calls the API and then builds a new cake instance
-        addNewCake(flavor,size,rating,image);
+        if($('h3#title').text() === "Add Cupcake"){
+            addNewCake(flavor,size,rating,image);
+        } else {
+            const id = $("#cake_id").val();
+            updateCake(flavor,size,rating,image,id);
+            $('h3#title').text('Add Cupcake');
+            $("#submit-form")[0].reset();   
+        }
     });
 
-    $('i.fas.fa-edit').on("click", async function(evt){
-        evt.preventDefault();
+    $('td i.fas.fa-edit').on("click", function(evt){
+        console.log('I clicked')
+        //evt.preventDefault();
         const id = $(this).parent().parent().data('id');
+        $("#cake_id").val(id);
         $("#flavor").val($(`tr[data-id="${id}"]`).children('.flavor').text());
         $("#size").val($(`tr[data-id="${id}"]`).children('.size').text());
         $("#rating").val($(`tr[data-id="${id}"]`).children('.rating').text());
@@ -79,4 +86,12 @@ $(async function() {
         generateCakeList(CakeList.getQueryCakes,$keyword);
         $('input[name=search]').val('')
     })
+
+    function resetAllFields(){
+        $("")
+        $("#flavor").val('');
+        $("#size").val('');
+        $("#rating").val('')
+        $("#image").val('')
+    }
 });
