@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, flash
 from models import db, connect_db, Cupcake
 from forms import AddCakeForm
 
@@ -22,12 +22,12 @@ def add_cupcake():
         flavor = form.flavor.data
         size = form.size.data
         rating = form.rating.data
-        image =form.image.data
+        image = form.image.data
 
         cake = Cake(flavor=flavor,size=size,rating=rating,image=image)
         db.session.add(cake)
         db.session.commit()
-        flash(f'Created {flavor} {size}')
+        flash(f'Created {flavor} {size}', "success")
         return redirect('/')
     return render_template('index.html',form=form, cakes=cakes)
 
@@ -75,6 +75,7 @@ def update_cupcake(cupcake_id):
     cupcake.rating = request.json.get('rating',cupcake.rating)
     cupcake.image = request.json.get('image',cupcake.image)
     db.session.commit()
+    flash('Cake was updated',"success")
     return jsonify(cupcake=cupcake.serialize())
 
 @app.route('/api/cupcakes/<int:cupcake_id>', methods=["DELETE"])

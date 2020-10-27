@@ -45,6 +45,12 @@ class CakeList {
       );
       return response.data;
     }
+
+    static async deleteCupcake(id){
+    
+      const response = await axios.delete(`/api/cupcakes/${id}`);
+      return response.data;
+    }
 }
 
 class Cupcake {
