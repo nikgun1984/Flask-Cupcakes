@@ -1,0 +1,9 @@
+i.fa-edit:hover{
+    color: rgb(14, 192, 133);
+    cursor: pointer;
+}
+
+i.fa-trash:hover{
+    color:red;
+    cursor: pointer;
+}

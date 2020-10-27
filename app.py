@@ -43,6 +43,14 @@ def get_cupcake(cupcake_id):
     cupcake = Cupcake.query.get_or_404(cupcake_id)
     return jsonify(cupcake = cupcake.serialize())
 
+@app.route('/api/cupcakes/search')
+def query_data():
+    query_string = request.args["search"]
+    query = Cupcake.query.filter(Cupcake.flavor.ilike(f'%{query_string}%'))
+    cupcakes = [cupcake.serialize() for cupcake in query]
+    return jsonify(cupcakes=cupcakes)
+
+
 @app.route('/api/cupcakes', methods=["POST"])
 def create_cupcake():
     """Create a new cupcake and submit it to the database"""
