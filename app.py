@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, render_template, flash
 from models import db, connect_db, Cupcake
 from forms import AddCakeForm
+import os
 
 app = Flask(__name__)
 
@@ -9,7 +10,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///cupcakes'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 0
-app.config['SECRET_KEY'] = "oh-so-secret"
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'secrethello1')
 
 connect_db(app)
 
